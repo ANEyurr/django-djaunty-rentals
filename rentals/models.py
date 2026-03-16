@@ -22,6 +22,7 @@ class Bike(models.Model):
         max_length=2, choices=BIKE_TYPE_CHOICES, default=STANDARD
     )
     color = models.CharField(max_length=10, default="")
+    is_rented = models.BooleanField(default=False)
 
     def __str__(self) -> str:
         return f"{self.bike_type} - {self.color}"

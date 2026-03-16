@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Djaunty Rentals — Bikes</title>
+    <style>
+      :root { color-scheme: light; }
+      body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 2rem; }
+      header { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; flex-wrap: wrap; }
+      h1 { margin: 0; font-size: 1.75rem; }
+      .meta { color: #555; }
+      .grid { margin-top: 1.25rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; }
+      .card { border: 1px solid #ddd; border-radius: 12px; padding: 1rem; background: #fff; }
+      .pill { display: inline-block; padding: 0.2rem 0.55rem; border-radius: 999px; font-size: 0.85rem; background: #f3f4f6; }
+      .pill.rented { background: #fee2e2; }
+      .pill.available { background: #dcfce7; }
+      .row { display: flex; justify-content: space-between; align-items: center; gap: 0.75rem; }
+      .label { font-weight: 600; }
+      footer { margin-top: 2rem; color: #666; font-size: 0.9rem; }
+      a { color: inherit; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Djaunty Rent-a-Bike</h1>
+      <div class="meta">
+        Showing <strong>{{ bikes|length }}</strong> bike{{ bikes|length|pluralize }}
+        · <a href="/admin/">Admin</a>
+      </div>
+    </header>
+
+    <section class="grid">
+      {% for bike in bikes %}
+        <article class="card">
+          <div class="row">
+            <div>
+              <div class="label">{{ bike.get_bike_type_display }}</div>
+              <div class="meta">{{ bike.bike_type }} - {{ bike.color }}</div>
+            </div>
+            {% if bike.is_rented %}
+              <span class="pill rented">Rented</span>
+            {% else %}
+              <span class="pill available">Available</span>
+            {% endif %}
+          </div>
+        </article>
+      {% empty %}
+        <article class="card">
+          <div class="label">No bikes yet</div>
+          <div class="meta">Add bikes in the Admin panel, then refresh.</div>
+        </article>
+      {% endfor %}
+    </section>
+
+    <footer>
+      Tip: to re-seed demo data, run <code>python manage.py seed_djaunty</code>.
+    </footer>
+  </body>
+</html>
+
